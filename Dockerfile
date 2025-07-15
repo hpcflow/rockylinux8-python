@@ -6,10 +6,8 @@ RUN dnf -y update && \
     dnf -y install wget gcc openssl-devel bzip2-devel libffi-devel xz-devel tk-devel git && \
     dnf clean all && rm -rf /var/cache/dnf
 
-# Set Python, Poetry and Micromamba versions:
+# Set Python version
 ARG PYTHON_VERSION=3.13.5
-ARG POETRY_VERSION=2.1.3
-ARG MICROMAMBA_VERSION=2.0.7-0
 
 # Download Python source
 RUN cd /tmp/ && \
@@ -42,8 +40,14 @@ RUN ln -s /opt/python/3.13.5/bin/python3.13 /opt/python/3.13.5/bin/python3 && \
 # Check Python version
 RUN python --version
 
+# Set Poetry and version
+ARG POETRY_VERSION=2.1.3
+
 # Install poetry
 RUN python -m pip install --no-cache-dir poetry==${POETRY_VERSION}
+
+# Set Micromamba version
+ARG MICROMAMBA_VERSION=2.3.0-1
 
 # Install micromamba
 RUN /bin/bash -l <<InstallMicroMamba
